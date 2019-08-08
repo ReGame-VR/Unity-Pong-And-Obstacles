@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.unitypongandobstacles.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\Rehabilitation Games\\Desktop\\Liam Cristello\\Unity-Pong-And-Obstacles\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "Unity-Pong-And-Obstacles [Testing]"
+        }
+      }
+    }
+  ]
+}
