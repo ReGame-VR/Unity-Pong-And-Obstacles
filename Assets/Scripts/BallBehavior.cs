@@ -18,4 +18,12 @@ public class BallBehavior : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "ScreenBottomWall")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }
