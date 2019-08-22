@@ -18,17 +18,37 @@ public class Spawner : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.U))
         {
             ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(2.5f, 0, 3);
-            Instantiate(ball, new Vector3(0, 0, 6), Quaternion.identity);
+            Debug.Log("Next ball will spawn at slow speed.");
         }
         if (Input.GetKeyUp(KeyCode.I))
         {
             ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(5, 0, 5);
-            Instantiate(ball, new Vector3(0, 0, 6), Quaternion.identity);
+            Debug.Log("Next ball will spawn at medium speed.");
         }
         if (Input.GetKeyUp(KeyCode.O))
         {
             ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(7, 0, 9);
+            Debug.Log("Next ball will spawn at fast speed.");
+        }
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            ball.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            Debug.Log("Next ball will spawn at small size.");
+        }
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            ball.transform.localScale = new Vector3(1, 1, 1);
+            Debug.Log("Next ball will spawn at medium size.");
+        }
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            ball.transform.localScale = new Vector3(2, 2, 2);
+            Debug.Log("Next ball will spawn at large size.");
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
             Instantiate(ball, new Vector3(0, 0, 6), Quaternion.identity);
+            Debug.Log("Spawned ball.");
         }
     }
 

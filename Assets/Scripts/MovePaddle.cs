@@ -26,7 +26,7 @@ public class MovePaddle : MonoBehaviour
     void Update()
     {
         wiiBB = CoPtoCM(Wii.GetCenterOfBalance(0));
-        Debug.Log(CoPtoCM(Wii.GetCenterOfBalance(0)));
+        //Debug.Log(CoPtoCM(Wii.GetCenterOfBalance(0)));
         //paddleX = Mathf.Clamp(wiiBB.x, transform.TransformPoint(westEdge).x, transform.TransformPoint(eastEdge).x);
         paddleX = Mathf.Clamp(wiiBB.x, -15.1f, 15.06f);
         transform.position = new Vector3(paddleX, wiiBB.y);
