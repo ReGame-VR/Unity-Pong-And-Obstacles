@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallTrajectory : MonoBehaviour
+public class BallBehavior : MonoBehaviour
 {
     public Vector3 initialImpulse;
     private Rigidbody rb;
