@@ -6,11 +6,13 @@ public class BallBehavior : MonoBehaviour
 {
     public Vector3 initialImpulse;
     private Rigidbody rb;
+    private GameObject spawner;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce(initialImpulse, ForceMode.Impulse);
+        spawner = GameObject.Find("BallSpawner");
     }
 
     // Update is called once per frame
@@ -23,6 +25,7 @@ public class BallBehavior : MonoBehaviour
     {
         if (collision.gameObject.name == "ScreenBottomWall")
         {
+            spawner.GetComponent<Spawner>().balls.Remove(this.gameObject);
             Destroy(this.gameObject);
         }
     }

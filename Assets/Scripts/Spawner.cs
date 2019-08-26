@@ -2,59 +2,69 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Script to manage spawning in balls, their speed and size, and general
+ * other spawning-related applications.
+ */
 public class Spawner : MonoBehaviour
 {
+    // GameObject reference to Ball prefab
     public GameObject ball;
-    private int numBalls;
+    // List tracking all active balls in the scene.
+    public List<GameObject> balls;
+    // List containing all Spawnpoints for balls.
+    public GameObject[] spawnpoints;
     // Start is called before the first frame update
     void Start()
     {
-        numBalls = 0;
+        spawnpoints = GameObject.FindGameObjectsWithTag("Spawn");
     }
 
     // Update is called once per frame
     void Update()
     {
+        // If "U" is pressed, next ball spawned will be slow.
         if (Input.GetKeyUp(KeyCode.U))
         {
             ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(2.5f, 0, 3);
             Debug.Log("Next ball will spawn at slow speed.");
         }
+        // If "I" is pressed, next ball spawned will be medium-speed.
         if (Input.GetKeyUp(KeyCode.I))
         {
             ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(5, 0, 5);
             Debug.Log("Next ball will spawn at medium speed.");
         }
+        // If "O" is pressed, next ball spawned will be fast.
         if (Input.GetKeyUp(KeyCode.O))
         {
             ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(7, 0, 9);
             Debug.Log("Next ball will spawn at fast speed.");
         }
+        // If "J" is pressed, next ball spawned will be small.
         if (Input.GetKeyUp(KeyCode.J))
         {
             ball.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             Debug.Log("Next ball will spawn at small size.");
         }
+        // If "K" is pressed, next ball spawned will be medium-sized.
         if (Input.GetKeyUp(KeyCode.K))
         {
             ball.transform.localScale = new Vector3(1, 1, 1);
             Debug.Log("Next ball will spawn at medium size.");
         }
+        // If "L" is pressed, next ball spawned will be large.
         if (Input.GetKeyUp(KeyCode.L))
         {
             ball.transform.localScale = new Vector3(2, 2, 2);
             Debug.Log("Next ball will spawn at large size.");
         }
+        // Spawns a ball with current specifics and adds it to balls list.
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Instantiate(ball, new Vector3(0, 0, 6), Quaternion.identity);
+            Vector3 chosenSpawn = spawnpoints[Random.Range(0, 2)].gameObject.transform.position;
+            Instantiate(ball, chosenSpawn, Quaternion.identity);
+            balls.Add(ball);
             Debug.Log("Spawned ball.");
         }
-    }
-
-    void Spawn(string speed)
-    {
-        var newBall = Instantiate(ball) as GameObject;
-        ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(2.5f, 0, 3);
     }
 }
