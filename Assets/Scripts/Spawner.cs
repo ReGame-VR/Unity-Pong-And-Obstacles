@@ -9,8 +9,8 @@ public class Spawner : MonoBehaviour
 {
     // GameObject reference to Ball prefab
     public GameObject ball;
-    // List tracking all active balls in the scene.
-    public List<GameObject> balls;
+    // Ints for tracking current number of balls and max total number.
+    public int currBalls, maxBalls;
     // List containing all Spawnpoints for balls.
     public GameObject[] spawnpoints;
     // Start is called before the first frame update
@@ -25,19 +25,19 @@ public class Spawner : MonoBehaviour
         // If "U" is pressed, next ball spawned will be slow.
         if (Input.GetKeyUp(KeyCode.U))
         {
-            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(2.5f, 0, 3);
+            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(Random.Range(2.0f, 3.0f), 0, Random.Range(2.0f, 3.0f));
             Debug.Log("Next ball will spawn at slow speed.");
         }
         // If "I" is pressed, next ball spawned will be medium-speed.
         if (Input.GetKeyUp(KeyCode.I))
         {
-            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(5, 0, 5);
+            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(Random.Range(3.0f, 6.0f), 0, Random.Range(3.0f, 6.0f));
             Debug.Log("Next ball will spawn at medium speed.");
         }
         // If "O" is pressed, next ball spawned will be fast.
         if (Input.GetKeyUp(KeyCode.O))
         {
-            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(7, 0, 9);
+            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(Random.Range(6.0f, 10.5f), 0, Random.Range(6.0f, 10.5f));
             Debug.Log("Next ball will spawn at fast speed.");
         }
         // If "J" is pressed, next ball spawned will be small.
@@ -59,12 +59,12 @@ public class Spawner : MonoBehaviour
             Debug.Log("Next ball will spawn at large size.");
         }
         // Spawns a ball with current specifics and adds it to balls list.
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && currBalls< maxBalls)
         {
-            Vector3 chosenSpawn = spawnpoints[Random.Range(0, 2)].gameObject.transform.position;
+            Vector3 chosenSpawn = spawnpoints[Random.Range(0, 3)].gameObject.transform.position;
+            currBalls += 1;
+            Debug.Log("Spawned ball at " + chosenSpawn);
             Instantiate(ball, chosenSpawn, Quaternion.identity);
-            balls.Add(ball);
-            Debug.Log("Spawned ball.");
         }
     }
 }
