@@ -14,12 +14,16 @@ public class MovePaddle : MonoBehaviour
     Vector3 eastEdge, westEdge;
     // float to manage paddle's x-position and bind it within game screen
     float paddleX;
+    // floats to manage left and right bounds for paddle.
+    float leftBound, rightBound;
     // Start is called before the first frame update
     void Start()
     {
         eastEdge = eastWall.GetComponent<BoxCollider>().center - eastWall.GetComponent<BoxCollider>().size;
         westEdge = westWall.GetComponent<BoxCollider>().center + westWall.GetComponent<BoxCollider>().size;
         //Debug.Log("Bounds are " + westEdge + " and " + eastEdge + ".");
+        leftBound = -15.1f;
+        rightBound = 15.06f;
     }
 
     // Update is called once per frame
@@ -28,18 +32,24 @@ public class MovePaddle : MonoBehaviour
         wiiBB = CoPtoCM(Wii.GetCenterOfBalance(0));
         //Debug.Log(CoPtoCM(Wii.GetCenterOfBalance(0)));
         //paddleX = Mathf.Clamp(wiiBB.x, transform.TransformPoint(westEdge).x, transform.TransformPoint(eastEdge).x);
-        paddleX = Mathf.Clamp(wiiBB.x, -15.1f, 15.06f);
+        paddleX = Mathf.Clamp(wiiBB.x, leftBound, rightBound);
         transform.position = new Vector3(paddleX, wiiBB.y);
         // If "Q" is pressed, paddle is large.
         if (Input.GetKeyUp(KeyCode.Q)) {
+            leftBound = -15.1f;
+            rightBound = 15.06f;
             this.transform.localScale = new Vector3(16.67462f, 0.6537052f, 2.623191f);
         }
         // If "W" is pressed, paddle is medium-sized.
         if (Input.GetKeyUp(KeyCode.W)) {
-            this.transform.localScale = new Vector3(10.67462f, 0.6537052f, 2.623191f);
+            leftBound = -17.6f;
+            rightBound = 17.59f;
+            this.transform.localScale = new Vector3(11.67462f, 0.6537052f, 2.623191f);
         }
         // If "E" is pressed, paddle is small.
         if (Input.GetKeyUp(KeyCode.E)) {
+            leftBound = -20.08f;
+            rightBound = 20.08f;
             this.transform.localScale = new Vector3(6.67462f, 0.6537052f, 2.623191f);
         }
     }

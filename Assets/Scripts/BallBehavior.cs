@@ -16,9 +16,13 @@ public class BallBehavior : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (transform.position.y > 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
