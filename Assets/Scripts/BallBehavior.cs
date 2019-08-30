@@ -29,7 +29,7 @@ public class BallBehavior : MonoBehaviour
     {
         if (collision.gameObject.name == "ScreenBottomWall")
         {
-            spawner.GetComponent<Spawner>().currBalls -= 1;
+            spawner.GetComponent<BallSpawner>().currBalls -= 1;
             Destroy(this.gameObject);
         }
     }

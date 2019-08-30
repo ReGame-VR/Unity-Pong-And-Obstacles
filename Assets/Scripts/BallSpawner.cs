@@ -5,18 +5,22 @@ using UnityEngine;
 /* Script to manage spawning in balls, their speed and size, and general
  * other spawning-related applications.
  */
-public class Spawner : MonoBehaviour
+public class BallSpawner : MonoBehaviour
 {
     // GameObject reference to Ball prefab
     public GameObject ball;
     // Ints for tracking current number of balls and max total number.
     public int currBalls, maxBalls;
+    // Ints to randomly choose left/right and down/up direction (-1 or 1)
+    int horizDirection, vertDirection;
     // List containing all Spawnpoints for balls.
     public GameObject[] spawnpoints;
     // Start is called before the first frame update
     void Start()
     {
-        spawnpoints = GameObject.FindGameObjectsWithTag("Spawn");
+        spawnpoints = GameObject.FindGameObjectsWithTag("BallSpawn");
+        ball.transform.localScale = new Vector3(1, 1, 1);
+        ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -25,19 +29,28 @@ public class Spawner : MonoBehaviour
         // If "U" is pressed, next ball spawned will be slow.
         if (Input.GetKeyUp(KeyCode.U))
         {
-            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(Random.Range(2.0f, 3.0f), 0, Random.Range(2.0f, 3.0f));
+            horizDirection = Random.Range(0, 2) * 2 - 1;
+            vertDirection = Random.Range(0, 2) * 2 - 1;
+            ball.GetComponent<BallBehavior>().initialImpulse = 
+                new Vector3(Random.Range(2.0f, 3.0f) * horizDirection, 0, Random.Range(2.0f, 3.0f) * vertDirection);
             Debug.Log("Next ball will spawn at slow speed.");
         }
         // If "I" is pressed, next ball spawned will be medium-speed.
         if (Input.GetKeyUp(KeyCode.I))
         {
-            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(Random.Range(3.0f, 6.0f), 0, Random.Range(3.0f, 6.0f));
+            horizDirection = Random.Range(0, 2) * 2 - 1;
+            vertDirection = Random.Range(0, 2) * 2 - 1;
+            ball.GetComponent<BallBehavior>().initialImpulse = 
+                new Vector3(Random.Range(3.0f, 6.0f) * horizDirection, 0, Random.Range(3.0f, 6.0f) * vertDirection);
             Debug.Log("Next ball will spawn at medium speed.");
         }
         // If "O" is pressed, next ball spawned will be fast.
         if (Input.GetKeyUp(KeyCode.O))
         {
-            ball.GetComponent<BallBehavior>().initialImpulse = new Vector3(Random.Range(6.0f, 10.5f), 0, Random.Range(6.0f, 10.5f));
+            horizDirection = Random.Range(0, 2) * 2 - 1;
+            vertDirection = Random.Range(0, 2) * 2 - 1;
+            ball.GetComponent<BallBehavior>().initialImpulse = 
+                new Vector3(Random.Range(6.0f, 10.5f) * horizDirection, 0, Random.Range(6.0f, 10.5f) * vertDirection);
             Debug.Log("Next ball will spawn at fast speed.");
         }
         // If "J" is pressed, next ball spawned will be small.
@@ -59,7 +72,7 @@ public class Spawner : MonoBehaviour
             Debug.Log("Next ball will spawn at large size.");
         }
         // Spawns a ball with current specifics and adds it to balls list.
-        if (Input.GetKeyUp(KeyCode.Space) && currBalls< maxBalls)
+        if (Input.GetKeyUp(KeyCode.Space) && currBalls< maxBalls && ball.GetComponent<BallBehavior>().initialImpulse != new Vector3(0, 0, 0))
         {
             Vector3 chosenSpawn = spawnpoints[Random.Range(0, 3)].gameObject.transform.position;
             currBalls += 1;

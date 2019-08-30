@@ -6,7 +6,8 @@ TagManager:
   tags:
   - Paddle
   - Ball
-  - Spawn
+  - BallSpawn
+  - ObstacleSpawn
   layers:
   - Default
   - TransparentFX
