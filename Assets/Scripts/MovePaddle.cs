@@ -33,7 +33,7 @@ public class MovePaddle : MonoBehaviour
         //Debug.Log(CoPtoCM(Wii.GetCenterOfBalance(0)));
         //paddleX = Mathf.Clamp(wiiBB.x, transform.TransformPoint(westEdge).x, transform.TransformPoint(eastEdge).x);
         paddleX = Mathf.Clamp(wiiBB.x, leftBound, rightBound);
-        transform.position = new Vector3(paddleX, 22.04f, wiiBB.y);
+        transform.position = new Vector3(paddleX, 22.04f, -1.0654f);
         // If "Q" is pressed, paddle is large.
         if (Input.GetKeyUp(KeyCode.Q)) {
             leftBound = -3.45f;
