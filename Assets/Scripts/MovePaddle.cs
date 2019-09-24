@@ -22,8 +22,8 @@ public class MovePaddle : MonoBehaviour
         eastEdge = eastWall.GetComponent<BoxCollider>().center - eastWall.GetComponent<BoxCollider>().size;
         westEdge = westWall.GetComponent<BoxCollider>().center + westWall.GetComponent<BoxCollider>().size;
         //Debug.Log("Bounds are " + westEdge + " and " + eastEdge + ".");
-        leftBound = -3.45f;
-        rightBound = 3.44f;
+        leftBound = -2.24f;
+        rightBound = 2.23f;
     }
 
     // Update is called once per frame
@@ -33,12 +33,12 @@ public class MovePaddle : MonoBehaviour
         //Debug.Log(CoPtoCM(Wii.GetCenterOfBalance(0)));
         //paddleX = Mathf.Clamp(wiiBB.x, transform.TransformPoint(westEdge).x, transform.TransformPoint(eastEdge).x);
         paddleX = Mathf.Clamp(wiiBB.x, leftBound, rightBound);
-        transform.position = new Vector3(paddleX, 22.04f, -1.0654f);
+        transform.position = new Vector3(paddleX, 22.04f, -3.81f);
         // If "Q" is pressed, paddle is large.
         if (Input.GetKeyUp(KeyCode.Q)) {
-            leftBound = -3.45f;
-            rightBound = 3.44f;
-            this.transform.localScale = new Vector3(5.231771f, 0.1491342f, 0.5984464f);
+            leftBound = -2.24f;
+            rightBound = 2.23f;
+            this.transform.localScale = new Vector3(6.210636f, 0.1491342f, 0.5984464f);
         }
         // If "W" is pressed, paddle is medium-sized.
         if (Input.GetKeyUp(KeyCode.W)) {
