@@ -121,4 +121,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df81970060c0fcc4093b36981d0b97da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialImpulse: {x: 0, y: 0, z: 0}
+  initialImpulse: {x: -2.1714964, y: 0, z: -2.2061942}

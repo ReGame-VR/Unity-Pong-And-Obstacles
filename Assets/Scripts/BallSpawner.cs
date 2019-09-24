@@ -62,13 +62,13 @@ public class BallSpawner : MonoBehaviour
         // If "K" is pressed, next ball spawned will be medium-sized.
         if (Input.GetKeyUp(KeyCode.K))
         {
-            ball.transform.localScale = new Vector3(1, 1, 1);
+            ball.transform.localScale = new Vector3(.6f, .6f, .6f);
             Debug.Log("Next ball will spawn at medium size.");
         }
         // If "L" is pressed, next ball spawned will be large.
         if (Input.GetKeyUp(KeyCode.L))
         {
-            ball.transform.localScale = new Vector3(2, 2, 2);
+            ball.transform.localScale = new Vector3(.85f, .85f, .85f);
             Debug.Log("Next ball will spawn at large size.");
         }
         // Spawns a ball with current specifics and adds it to balls list.
