@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class ObstacleBehavior : MonoBehaviour
 {
-    
-    GameObject camera;
+    // The obstacle's rigidbody to add force to
+    private Rigidbody rb;
+    // The camera that obstacles will be flying toward (player)
+    public GameObject camera;
+    // float representing obstacle flight speed
     public float speed = 1.0f;
+    // floats representing rotation speeds for X, Y, and Z axes of obstacles
     public float rotX = 0;
     public float rotY = 0;
     public float rotZ = 0;
     // Start is called before the first frame update
     void Start()
     {
-        camera = GameObject.Find("Camera");
+        //camera = GameObject.Find("Camera");
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -27,17 +32,17 @@ public class ObstacleBehavior : MonoBehaviour
         transform.Rotate(Vector3.forward, rotZ * Time.deltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collided");
-        if (collision.gameObject.CompareTag("Controller"))
+        if (collision.gameObject.CompareTag("GameController"))
         {
             Debug.Log("Deflected obstacle!");
         }
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject == camera)
         {
             Debug.Log("Obstacle struck player...");
         }
-        Destroy(this.gameObject);
+        Destroy(this);
     }
 }
