@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class ObstacleBehavior : MonoBehaviour
     {
         //camera = GameObject.Find("Camera");
         rb = GetComponent<Rigidbody>();
+        rb.AddForce((transform.position - camera.transform.position) * speed, ForceMode.VelocityChange);
     }
 
     // Update is called once per frame
@@ -26,7 +28,7 @@ public class ObstacleBehavior : MonoBehaviour
     {
         float step = speed * Time.deltaTime;
         //transform.position = new Vector3(transform.position.x, transform.position.y + Time.deltaTime, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, camera.transform.position, step);
+        //transform.position = Vector3.MoveTowards(transform.position, camera.transform.position, step);
         transform.Rotate(Vector3.right, rotX * Time.deltaTime);
         transform.Rotate(Vector3.up, rotY * Time.deltaTime);
         transform.Rotate(Vector3.forward, rotZ * Time.deltaTime);
