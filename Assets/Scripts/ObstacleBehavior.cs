@@ -17,12 +17,14 @@ public class ObstacleBehavior : MonoBehaviour
     public float rotZ = 0;
     // boolean representing whether obstacle has been deflected by controller
     private bool deflected;
+
+    private float lifetime;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         //rb.AddForce((transform.position - camera.transform.position) * speed, ForceMode.VelocityChange);
-        
+        lifetime = 3.0f;
     }
 
     // called once per frame, after physics engine updates
@@ -52,6 +54,7 @@ public class ObstacleBehavior : MonoBehaviour
             Debug.Log("Deflected obstacle!");
             deflected = true;
             DeathTimer();
+            Destroy(gameObject, lifetime);
         }
         if (collision.gameObject.Equals(camera))
         {
