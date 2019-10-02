@@ -18,20 +18,25 @@ public class ObstacleBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //camera = GameObject.Find("Camera");
         rb = GetComponent<Rigidbody>();
-        rb.AddForce((transform.position - camera.transform.position) * speed, ForceMode.VelocityChange);
+        //rb.AddForce((transform.position - camera.transform.position) * speed, ForceMode.VelocityChange);
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    // called once per frame, after physics engine updates
+    void FixedUpdate()
     {
-        float step = speed * Time.deltaTime;
+        //float step = speed * Time.deltaTime;
         //transform.position = new Vector3(transform.position.x, transform.position.y + Time.deltaTime, transform.position.z);
-        //transform.position = Vector3.MoveTowards(transform.position, camera.transform.position, step);
+        //rb.velocity = Vector3.MoveTowards(transform.position, camera.transform.position, step);
+        //rb.velocity = transform.position - camera.transform.position;
         transform.Rotate(Vector3.right, rotX * Time.deltaTime);
         transform.Rotate(Vector3.up, rotY * Time.deltaTime);
         transform.Rotate(Vector3.forward, rotZ * Time.deltaTime);
+
+        Vector3 direction = (camera.transform.position - transform.position).normalized;
+        Vector3 obstVelocity = direction * speed;
+        rb.velocity = obstVelocity;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -45,6 +50,6 @@ public class ObstacleBehavior : MonoBehaviour
         {
             Debug.Log("Obstacle struck player...");
         }
-        Destroy(this);
+        Destroy(gameObject);
     }
 }
