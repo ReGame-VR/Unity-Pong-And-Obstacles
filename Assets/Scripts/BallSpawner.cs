@@ -13,10 +13,11 @@ public class BallSpawner : MonoBehaviour
     public int currBalls, maxBalls;
     // Ints to randomly choose left/right and down/up direction (-1 or 1)
     int horizDirection, vertDirection;
-    // List containing all Spawnpoints for balls.
+    // Array of GameObjects containing all Spawnpoints for balls.
     public GameObject[] spawnpoints;
     // Vector3 referring to ball's initialImpulse field
     Vector3 initialImpulse;
+
     // Start is called before the first frame update
     void Start()
     {
