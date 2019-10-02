@@ -15,6 +15,8 @@ public class ObstacleBehavior : MonoBehaviour
     public float rotX = 0;
     public float rotY = 0;
     public float rotZ = 0;
+    // boolean representing whether obstacle has been deflected by controller
+    private bool deflected;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,9 +36,12 @@ public class ObstacleBehavior : MonoBehaviour
         transform.Rotate(Vector3.up, rotY * Time.deltaTime);
         transform.Rotate(Vector3.forward, rotZ * Time.deltaTime);
 
-        Vector3 direction = (camera.transform.position - transform.position).normalized;
-        Vector3 obstVelocity = direction * speed;
-        rb.velocity = obstVelocity;
+        if (!deflected)
+        {
+            Vector3 direction = (camera.transform.position - transform.position).normalized;
+            Vector3 obstVelocity = direction * speed;
+            rb.velocity = obstVelocity;
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -45,11 +50,18 @@ public class ObstacleBehavior : MonoBehaviour
         if (collision.gameObject.CompareTag("GameController"))
         {
             Debug.Log("Deflected obstacle!");
+            deflected = true;
+            DeathTimer();
         }
-        if (collision.gameObject == camera)
+        if (collision.gameObject.Equals(camera))
         {
             Debug.Log("Obstacle struck player...");
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+    }
+
+    void DeathTimer()
+    {
+
     }
 }
