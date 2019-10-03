@@ -24,22 +24,35 @@ public class ObstacleSpawner : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Z))
         {
-
+            Debug.Log("Z");
         }
         if (Input.GetKeyUp(KeyCode.X))
         {
-
+            Debug.Log("X");
         }
         if (Input.GetKeyUp(KeyCode.C))
         {
-
+            Debug.Log("C");
         }
         if (Input.GetKeyUp(KeyCode.LeftShift) && currObs < maxObs)
         {
-            Vector3 chosenSpawn = spawnpoints[Random.Range(0, 3)].gameObject.transform.position;
+            Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
+            if (chosenSpawn.x < 0)
+            {
+                rotY = Random.Range(5f, 40f);
+                rotZ = Random.Range(5f, 40f);
+            }
+            else
+            {
+                rotY = Random.Range(-40f, -5f);
+                rotZ = Random.Range(-40f, -5f);
+            }
+            rotX = Random.Range(5f, 40f);
+            obstacle.GetComponent<ObstacleBehavior>().rotX = rotX;
+            obstacle.GetComponent<ObstacleBehavior>().rotY = rotY;
+            obstacle.GetComponent<ObstacleBehavior>().rotZ = rotZ;
             currObs += 1;
-            
-
+            Instantiate(obstacle, chosenSpawn, Quaternion.identity);
         }
     }
 }

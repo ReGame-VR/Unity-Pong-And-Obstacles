@@ -8,7 +8,7 @@ public class ObstacleBehavior : MonoBehaviour
     // The obstacle's rigidbody to add force to
     private Rigidbody rb;
     // The camera that obstacles will be flying toward (player)
-    public GameObject camera;
+    GameObject camera;
     // float representing obstacle flight speed
     public float speed = 1.0f;
     // floats representing rotation speeds for X, Y, and Z axes of obstacles
@@ -17,6 +17,8 @@ public class ObstacleBehavior : MonoBehaviour
     public float rotZ = 0;
     // boolean representing whether obstacle has been deflected by controller
     private bool deflected;
+    // Gameobject reference to obstacle spawner object
+    GameObject spawner;
 
     private float lifetime;
     // Start is called before the first frame update
@@ -25,6 +27,8 @@ public class ObstacleBehavior : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         //rb.AddForce((transform.position - camera.transform.position) * speed, ForceMode.VelocityChange);
         lifetime = 3.0f;
+        camera = GameObject.Find("Camera");
+        spawner = GameObject.Find("ObstacleSpawner");
     }
 
     // called once per frame, after physics engine updates
@@ -48,23 +52,25 @@ public class ObstacleBehavior : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collided");
+        //Debug.Log("Collided");
         if (collision.gameObject.CompareTag("GameController"))
         {
             Debug.Log("Deflected obstacle!");
             deflected = true;
-            DeathTimer();
             Destroy(gameObject, lifetime);
+            if (spawner.GetComponent<ObstacleSpawner>().currObs > 0)
+            {
+                spawner.GetComponent<ObstacleSpawner>().currObs -= 1;
+            }
         }
-        if (collision.gameObject.Equals(camera))
+        if (collision.gameObject.Equals(camera) && !deflected)
         {
             Debug.Log("Obstacle struck player...");
             Destroy(gameObject);
+            if (spawner.GetComponent<ObstacleSpawner>().currObs > 0)
+            {
+                spawner.GetComponent<ObstacleSpawner>().currObs -= 1;
+            }
         }
-    }
-
-    void DeathTimer()
-    {
-
     }
 }

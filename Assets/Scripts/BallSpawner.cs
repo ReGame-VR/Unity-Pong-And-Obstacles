@@ -69,7 +69,7 @@ public class BallSpawner : MonoBehaviour
         // Spawns a ball with current specifics and adds it to balls list.
         if (Input.GetKeyUp(KeyCode.Space) && currBalls< maxBalls && ball.GetComponent<BallBehavior>().initialImpulse != new Vector3(0, 0, 0))
         {
-            Vector3 chosenSpawn = spawnpoints[Random.Range(0, 3)].gameObject.transform.position;
+            Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
             currBalls += 1;
             Debug.Log("Spawned ball at " + chosenSpawn);
             horizDirection = Random.Range(0, 2) * 2 - 1;
