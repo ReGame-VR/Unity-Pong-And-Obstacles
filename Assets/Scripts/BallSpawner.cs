@@ -67,7 +67,7 @@ public class BallSpawner : MonoBehaviour
             Debug.Log("Next ball will spawn at large size.");
         }
         // Spawns a ball with current specifics and adds it to balls list.
-        if (Input.GetKeyUp(KeyCode.Space) && currBalls< maxBalls && ball.GetComponent<BallBehavior>().initialImpulse != new Vector3(0, 0, 0))
+        if (Input.GetKeyUp(KeyCode.RightShift) && currBalls < maxBalls && initialImpulse != new Vector3(0, 0, 0))
         {
             Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
             currBalls += 1;
@@ -75,6 +75,7 @@ public class BallSpawner : MonoBehaviour
             horizDirection = Random.Range(0, 2) * 2 - 1;
             vertDirection = Random.Range(0, 2) * 2 - 1;
             initialImpulse = new Vector3(initialImpulse.x * horizDirection, initialImpulse.y, initialImpulse.z * vertDirection);
+            ball.GetComponent<BallBehavior>().initialImpulse = initialImpulse;
             Instantiate(ball, chosenSpawn, Quaternion.identity);
         }
     }

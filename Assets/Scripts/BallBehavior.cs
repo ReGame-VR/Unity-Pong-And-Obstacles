@@ -23,13 +23,25 @@ public class BallBehavior : MonoBehaviour
             transform.position = new Vector3(transform.position.x, 22.196f, transform.position.z);
             
         }
+
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            Destroy(gameObject);
+            if (spawner.GetComponent<BallSpawner>().currBalls > 0)
+            {
+                spawner.GetComponent<BallSpawner>().currBalls -= 1;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name == "ScreenBottomWall")
         {
-            spawner.GetComponent<BallSpawner>().currBalls -= 1;
+            if (spawner.GetComponent<BallSpawner>().currBalls > 0)
+            {
+                spawner.GetComponent<BallSpawner>().currBalls -= 1;
+            }
             Destroy(this.gameObject);
         }
     }
