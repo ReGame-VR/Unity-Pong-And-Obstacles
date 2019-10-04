@@ -58,6 +58,6 @@ public class MovePaddle : MonoBehaviour
     public static Vector2 CoPtoCM(Vector2 posn)
     {
         //return new Vector2(posn.x * 43.3f / 2f, posn.y * 23.6f / 2f);
-        return new Vector2(posn.x * 43.3f / 1.4f, 0);
+        return new Vector2(posn.x * 43.3f / 10f, 0);
     }
 }
