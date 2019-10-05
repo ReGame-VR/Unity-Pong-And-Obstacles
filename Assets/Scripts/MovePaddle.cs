@@ -16,6 +16,12 @@ public class MovePaddle : MonoBehaviour
     float paddleX;
     // floats to manage left and right bounds for paddle.
     float leftBound, rightBound;
+    // enum
+    enum PaddleSize { Small, Medium, Large };
+    PaddleSize size;
+    // float modifiers
+    public float smallModifier, mediumModifier, largeModifier;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +30,7 @@ public class MovePaddle : MonoBehaviour
         //Debug.Log("Bounds are " + westEdge + " and " + eastEdge + ".");
         leftBound = -2.24f;
         rightBound = 2.23f;
+        size = PaddleSize.Large;
     }
 
     // Update is called once per frame
@@ -36,18 +43,21 @@ public class MovePaddle : MonoBehaviour
         transform.position = new Vector3(paddleX, 22.04f, -3.81f);
         // If "Q" is pressed, paddle is large.
         if (Input.GetKeyUp(KeyCode.Q)) {
+            size = PaddleSize.Large;
             leftBound = -2.24f;
             rightBound = 2.23f;
             this.transform.localScale = new Vector3(6.210636f, 0.1491342f, 0.5984464f);
         }
         // If "W" is pressed, paddle is medium-sized.
         if (Input.GetKeyUp(KeyCode.W)) {
+            size = PaddleSize.Medium;
             leftBound = -3.57f;
             rightBound = 3.56f;
             this.transform.localScale = new Vector3(3.530974f, 0.1491342f, 0.5984464f);
         }
         // If "E" is pressed, paddle is small.
         if (Input.GetKeyUp(KeyCode.E)) {
+            size = PaddleSize.Small;
             leftBound = -4.38f;
             rightBound = 4.39f;
             this.transform.localScale = new Vector3(1.92535f, 0.1491342f, 0.5984464f);
@@ -55,9 +65,20 @@ public class MovePaddle : MonoBehaviour
     }
 
     // Method to return Wii Balance Board's balance point input as a Vector2
-    public static Vector2 CoPtoCM(Vector2 posn)
+    public Vector2 CoPtoCM(Vector2 posn)
     {
-        //return new Vector2(posn.x * 43.3f / 2f, posn.y * 23.6f / 2f);
-        return new Vector2(posn.x * 43.3f / 10f, 0);
+        if (size.Equals(PaddleSize.Small))
+        {
+            return new Vector2(posn.x * 43.3f / smallModifier, 0);
+        }
+        else if (size.Equals(PaddleSize.Medium))
+        {
+            //return new Vector2(posn.x * 43.3f / 2f, posn.y * 23.6f / 2f);
+            return new Vector2(posn.x * 43.3f / mediumModifier, 0);
+        }
+        else
+        {
+            return new Vector2(posn.x * 43.3f / largeModifier, 0);
+        }
     }
 }
