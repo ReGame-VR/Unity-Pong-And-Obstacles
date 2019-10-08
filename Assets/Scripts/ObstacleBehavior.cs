@@ -58,7 +58,7 @@ public class ObstacleBehavior : MonoBehaviour
             Debug.Log("Deflected obstacle!");
             deflected = true;
             Destroy(gameObject, lifetime);
-            if (spawner.GetComponent<ObstacleSpawner>().currObs > 0)
+            if (!deflected && spawner.GetComponent<ObstacleSpawner>().currObs > 0)
             {
                 spawner.GetComponent<ObstacleSpawner>().currObs -= 1;
             }
