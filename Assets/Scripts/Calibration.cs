@@ -10,7 +10,8 @@ public class Calibration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //re-enable VR settings for rest of the game
+        UnityEngine.XR.XRSettings.enabled = true;
     }
 
     // Update is called once per frame
