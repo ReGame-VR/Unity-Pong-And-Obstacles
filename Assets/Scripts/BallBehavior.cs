@@ -7,12 +7,14 @@ public class BallBehavior : MonoBehaviour
     public Vector3 initialImpulse;
     private Rigidbody rb;
     private GameObject spawner;
+    private GameObject levelController;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce(initialImpulse, ForceMode.Impulse);
         spawner = GameObject.Find("BallSpawner");
+        levelController = GameObject.Find("LevelController")
     }
 
     // Update is called once per frame
@@ -36,13 +38,16 @@ public class BallBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "ScreenBottomWall")
+        if (collision.gameObject.name.Equals("ScreenBottomWall"))
         {
             if (spawner.GetComponent<BallSpawner>().currBalls > 0)
             {
                 spawner.GetComponent<BallSpawner>().currBalls -= 1;
             }
             Destroy(this.gameObject);
+        }
+        if (collision.gameObject.name .Equals("Paddle")) {
+            
         }
     }
 }

@@ -17,4 +17,9 @@ public class LevelController : MonoBehaviour
     {
         
     }
+
+    public void BallBounce()
+    {
+        numBounces++;
+    }
 }
