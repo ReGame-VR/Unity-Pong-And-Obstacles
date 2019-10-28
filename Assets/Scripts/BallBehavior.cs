@@ -14,7 +14,7 @@ public class BallBehavior : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.AddForce(initialImpulse, ForceMode.Impulse);
         spawner = GameObject.Find("BallSpawner");
-        levelController = GameObject.Find("LevelController")
+        levelController = GameObject.Find("LevelController");
     }
 
     // Update is called once per frame
@@ -46,8 +46,8 @@ public class BallBehavior : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
-        if (collision.gameObject.name .Equals("Paddle")) {
-            
+        if (collision.gameObject.name.Equals("Paddle")) {
+            levelController.GetComponent<LevelController>().BallBounce();
         }
     }
 }
