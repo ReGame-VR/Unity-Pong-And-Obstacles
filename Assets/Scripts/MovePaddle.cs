@@ -81,4 +81,9 @@ public class MovePaddle : MonoBehaviour
             return new Vector2(posn.x * 43.3f / largeModifier, 0);
         }
     }
+
+    public Vector2 CoPtoCMRaw(Vector2 posn)
+    {
+        return new Vector2(posn.x, 0);
+    }
 }
