@@ -17,7 +17,7 @@ public class MovePaddle : MonoBehaviour
     // floats to manage left and right bounds for paddle.
     float leftBound, rightBound;
     // enum
-    enum PaddleSize { Small, Medium, Large };
+    public enum PaddleSize { Small, Medium, Large };
     PaddleSize size;
     // float modifiers
     public float smallModifier, mediumModifier, largeModifier;

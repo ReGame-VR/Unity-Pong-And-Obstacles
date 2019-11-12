@@ -9,6 +9,15 @@ public class BallSpawner : MonoBehaviour
 {
     // GameObject reference to Ball prefab
     public GameObject ball;
+    // enum to decide the size of each new spawned ball
+    public enum BallSize {Small, Medium, Large};
+    // public floats for easily changing each BallSize's actual scale modifier
+    public float smallScale, medScale, largeScale;
+    // enum to decide the speed of each new spawned ball
+    public enum BallSpeed { Slow, Medium, Fast };
+    // public Vector3's for easily changing each BallSpeed's actual speed modifier,
+    // with max and min because there is some randomization each time
+    public float slowSpeedMin, slowSpeedMax, medSpeedMin, medSpeedMax, fastSpeedMin, fastSpeedMax;
     // Ints for tracking current number of balls and max total number.
     public int currBalls, maxBalls;
     // Ints to randomly choose left/right and down/up direction (-1 or 1)
@@ -22,32 +31,60 @@ public class BallSpawner : MonoBehaviour
     void Start()
     {
         spawnpoints = GameObject.FindGameObjectsWithTag("BallSpawn");
-        ball.transform.localScale = new Vector3(1, 1, 1);
         initialImpulse = ball.GetComponent<BallBehavior>().initialImpulse;
+        ResetBallPrefab();
+    }
+
+    // Resets the ball prefab to default for next ball spawning
+    void ResetBallPrefab()
+    {
+        ball.transform.localScale = new Vector3(1, 1, 1);
         initialImpulse = new Vector3(0, 0, 0);
+    }
+
+    // Spawns ball with given difficulty parameters
+    void SpawnBall(BallSize size, BallSpeed speed)
+    {
+        SetSpeed(speed);
+
+    }
+
+    // Sets up initialImpulse to properly reflect the selected BallSpeed
+    void SetSpeed(BallSpeed speed)
+    {
+        if (speed.Equals(BallSpeed.Slow))
+        {
+            initialImpulse = new Vector3(Random.Range(slowSpeedMin, slowSpeedMax), 0, Random.Range(slowSpeedMin, slowSpeedMax));
+        }
+        if (speed.Equals(BallSpeed.Medium))
+        {
+            initialImpulse = new Vector3(Random.Range(medSpeedMin, medSpeedMax), 0, Random.Range(medSpeedMin, medSpeedMax));
+        }
+        if (speed.Equals(BallSpeed.Fast))
+        {
+            initialImpulse = new Vector3(Random.Range(fastSpeedMin, fastSpeedMax), 0, Random.Range(fastSpeedMin, fastSpeedMax));
+        }
+    }
+
+    void SetSize(BallSize size)
+    {
+        if (size.Equals(BallSize.Small))
+        {
+            ball.transform.localScale = new Vector3(smallScale, smallScale, smallScale);
+        }
+        if (size.Equals(BallSize.Medium))
+        {
+            ball.transform.localScale = new Vector3(medScale, medScale, medScale);
+        }
+        if (size.Equals(BallSize.Large))
+        {
+            ball.transform.localScale = new Vector3(smallScale, smallScale, smallScale);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If "U" is pressed, next ball spawned will be slow.
-        if (Input.GetKeyUp(KeyCode.U))
-        {
-            initialImpulse = new Vector3(Random.Range(2.0f, 3.0f), 0, Random.Range(2.0f, 3.0f));
-            Debug.Log("Next ball will spawn at slow speed.");
-        }
-        // If "I" is pressed, next ball spawned will be medium-speed.
-        if (Input.GetKeyUp(KeyCode.I))
-        {
-            initialImpulse = new Vector3(Random.Range(3.0f, 6.0f), 0, Random.Range(3.0f, 6.0f));
-            Debug.Log("Next ball will spawn at medium speed.");
-        }
-        // If "O" is pressed, next ball spawned will be fast.
-        if (Input.GetKeyUp(KeyCode.O))
-        {
-            initialImpulse = new Vector3(Random.Range(6.0f, 10.5f), 0, Random.Range(6.0f, 10.5f));
-            Debug.Log("Next ball will spawn at fast speed.");
-        }
         // If "J" is pressed, next ball spawned will be small.
         if (Input.GetKeyUp(KeyCode.J))
         {
