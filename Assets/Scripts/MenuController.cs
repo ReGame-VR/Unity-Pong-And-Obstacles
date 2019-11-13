@@ -70,6 +70,7 @@ public class MenuController : MonoBehaviour
     public void NextScene()
     {
         GlobalControl.Instance.difficulty = DifficultyConvert(chooseMode.value);
-        SceneManager.LoadScene("Calibration");
+        //SceneManager.LoadScene("Calibration");
+        SceneManager.LoadScene("GameplayEnvironment");
     }
 }

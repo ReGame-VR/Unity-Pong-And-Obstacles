@@ -10,18 +10,22 @@ public class BallSpawner : MonoBehaviour
     // GameObject reference to Ball prefab
     public GameObject ball;
     // enum to decide the size of each new spawned ball
-    public enum BallSize {Small, Medium, Large};
+    public enum BallSize { Small, Medium, Large };
     // public floats for easily changing each BallSize's actual scale modifier
     public float smallScale, medScale, largeScale;
     // enum to decide the speed of each new spawned ball
     public enum BallSpeed { Slow, Medium, Fast };
-    // public Vector3's for easily changing each BallSpeed's actual speed modifier,
+    // public floats for easily changing each BallSpeed's actual speed modifier,
     // with max and min because there is some randomization each time
     public float slowSpeedMin, slowSpeedMax, medSpeedMin, medSpeedMax, fastSpeedMin, fastSpeedMax;
+    // enum for choosing angle of intial flight
+    public enum BallInitAngle { Shallow, Medium, Wide, Random };
+    // public floats for min and max possible angles of initial flight angle
+    public float shallowMin, shallowMax, medAngMin, medAngMax, wideMin, wideMax;
     // Ints for tracking current number of balls and max total number.
     public int currBalls, maxBalls;
-    // Ints to randomly choose left/right and down/up direction (-1 or 1)
-    int horizDirection, vertDirection;
+    // enum to choose horizontal direction of initial flight
+    public enum BallHorizDirection { Left, Right, Random };
     // Array of GameObjects containing all Spawnpoints for balls.
     public GameObject[] spawnpoints;
     // Vector3 referring to ball's initialImpulse field
@@ -40,13 +44,46 @@ public class BallSpawner : MonoBehaviour
     {
         ball.transform.localScale = new Vector3(1, 1, 1);
         initialImpulse = new Vector3(0, 0, 0);
+        ball.transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     // Spawns ball with given difficulty parameters
-    void SpawnBall(BallSize size, BallSpeed speed)
+    public void SpawnBall(BallSize size, BallSpeed speed, BallInitAngle initAngle, BallHorizDirection hDirect)
     {
         SetSpeed(speed);
+        SetAngle(initAngle);
+        SetSize(size);
+        SetDirection(hDirect);
 
+        Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
+        currBalls += 1;
+        //vertDirection = Random.Range(0, 2) * 2 - 1;
+        //initialImpulse = new Vector3(initialImpulse.x * horizDirection, initialImpulse.y, initialImpulse.z * vertDirection);
+        ball.GetComponent<BallBehavior>().initialImpulse = initialImpulse;
+        Instantiate(ball, chosenSpawn, Quaternion.identity);
+
+        ResetBallPrefab();
+    }
+
+    // Sets up ball's rotation to properly reflect the selected BallInitAngle
+    void SetAngle(BallInitAngle initAngle)
+    {
+        if (initAngle.Equals(BallInitAngle.Shallow))
+        {
+            ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, shallowMax), 0);
+        }
+        if (initAngle.Equals(BallInitAngle.Medium))
+        {
+            ball.transform.eulerAngles = new Vector3(0, Random.Range(medAngMin, medAngMax), 0);
+        }
+        if (initAngle.Equals(BallInitAngle.Wide))
+        {
+            ball.transform.eulerAngles = new Vector3(0, Random.Range(wideMin, wideMax), 0);
+        }
+        if (initAngle.Equals(BallInitAngle.Random))
+        {
+            ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, wideMax), 0);
+        }
     }
 
     // Sets up initialImpulse to properly reflect the selected BallSpeed
@@ -54,18 +91,37 @@ public class BallSpawner : MonoBehaviour
     {
         if (speed.Equals(BallSpeed.Slow))
         {
-            initialImpulse = new Vector3(Random.Range(slowSpeedMin, slowSpeedMax), 0, Random.Range(slowSpeedMin, slowSpeedMax));
+            initialImpulse = new Vector3(0, 0, Random.Range(slowSpeedMin, slowSpeedMax));
         }
         if (speed.Equals(BallSpeed.Medium))
         {
-            initialImpulse = new Vector3(Random.Range(medSpeedMin, medSpeedMax), 0, Random.Range(medSpeedMin, medSpeedMax));
+            initialImpulse = transform.forward * Random.Range(medSpeedMin, medSpeedMax);
         }
         if (speed.Equals(BallSpeed.Fast))
         {
-            initialImpulse = new Vector3(Random.Range(fastSpeedMin, fastSpeedMax), 0, Random.Range(fastSpeedMin, fastSpeedMax));
+            initialImpulse = transform.forward * Random.Range(fastSpeedMin, fastSpeedMax);
         }
     }
 
+    // Sets up intialImpulse to properly reflect the selected initial horizontal direction
+    void SetDirection(BallHorizDirection hDirect)
+    {
+        if (hDirect.Equals(BallHorizDirection.Left))
+        {
+            initialImpulse = new Vector3(initialImpulse.x * -1, initialImpulse.y, initialImpulse.z);
+        }
+        if (hDirect.Equals(BallHorizDirection.Right))
+        {
+            // Do nothing, as ball will default to right
+        }
+        if (hDirect.Equals(BallHorizDirection.Random))
+        {
+            int direct = Random.Range(0, 2) * 2 - 1;
+            initialImpulse = new Vector3(initialImpulse.x * direct, initialImpulse.y, initialImpulse.z);
+        }
+    }
+
+    // Sets up ball's localScale to reflect the selected BallSize
     void SetSize(BallSize size)
     {
         if (size.Equals(BallSize.Small))
@@ -78,42 +134,7 @@ public class BallSpawner : MonoBehaviour
         }
         if (size.Equals(BallSize.Large))
         {
-            ball.transform.localScale = new Vector3(smallScale, smallScale, smallScale);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // If "J" is pressed, next ball spawned will be small.
-        if (Input.GetKeyUp(KeyCode.J))
-        {
-            ball.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-            Debug.Log("Next ball will spawn at small size.");
-        }
-        // If "K" is pressed, next ball spawned will be medium-sized.
-        if (Input.GetKeyUp(KeyCode.K))
-        {
-            ball.transform.localScale = new Vector3(.6f, .6f, .6f);
-            Debug.Log("Next ball will spawn at medium size.");
-        }
-        // If "L" is pressed, next ball spawned will be large.
-        if (Input.GetKeyUp(KeyCode.L))
-        {
-            ball.transform.localScale = new Vector3(.85f, .85f, .85f);
-            Debug.Log("Next ball will spawn at large size.");
-        }
-        // Spawns a ball with current specifics and adds it to balls list.
-        if (Input.GetKeyUp(KeyCode.RightShift) && currBalls < maxBalls && initialImpulse != new Vector3(0, 0, 0))
-        {
-            Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
-            currBalls += 1;
-            Debug.Log("Spawned ball at " + chosenSpawn);
-            horizDirection = Random.Range(0, 2) * 2 - 1;
-            vertDirection = Random.Range(0, 2) * 2 - 1;
-            initialImpulse = new Vector3(initialImpulse.x * horizDirection, initialImpulse.y, initialImpulse.z * vertDirection);
-            ball.GetComponent<BallBehavior>().initialImpulse = initialImpulse;
-            Instantiate(ball, chosenSpawn, Quaternion.identity);
+            ball.transform.localScale = new Vector3(largeScale, largeScale, largeScale);
         }
     }
 }

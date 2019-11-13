@@ -20,12 +20,6 @@ public class BallBehavior : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (transform.position.y > 22.196f)
-        {
-            transform.position = new Vector3(transform.position.x, 22.196f, transform.position.z);
-            
-        }
-
         if (Input.GetKeyUp(KeyCode.Return))
         {
             Destroy(gameObject);
