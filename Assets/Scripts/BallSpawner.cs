@@ -22,6 +22,8 @@ public class BallSpawner : MonoBehaviour
     public enum BallInitAngle { Shallow, Medium, Wide, Random };
     // public floats for min and max possible angles of initial flight angle
     public float shallowMin, shallowMax, medAngMin, medAngMax, wideMin, wideMax;
+    // enum for choosing where ball spawns
+    public enum Spawn { };
     // Ints for tracking current number of balls and max total number.
     public int currBalls, maxBalls;
     // enum to choose horizontal direction of initial flight
@@ -54,7 +56,7 @@ public class BallSpawner : MonoBehaviour
         SetAngle(initAngle);
         SetSize(size);
         SetDirection(hDirect);
-
+        ChooseSpawn();
         Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
         currBalls += 1;
         //vertDirection = Random.Range(0, 2) * 2 - 1;
@@ -136,5 +138,10 @@ public class BallSpawner : MonoBehaviour
         {
             ball.transform.localScale = new Vector3(largeScale, largeScale, largeScale);
         }
+    }
+
+    void ChooseSpawn()
+    {
+
     }
 }

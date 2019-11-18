@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
     public float initialAngle;
     // References to related gameObjects to affect, implementing these difficulty elements
     public GameObject ballSpawn;
+    public GameObject paddle;
     
     // Start is called before the first frame update
     void Start()
@@ -145,6 +146,7 @@ public class LevelController : MonoBehaviour
 
     void PlayGame()
     {
+
         ballSpawn.GetComponent<BallSpawner>().SpawnBall(ballSize, ballSpeed, initAngle, hDirect);
     }
 }

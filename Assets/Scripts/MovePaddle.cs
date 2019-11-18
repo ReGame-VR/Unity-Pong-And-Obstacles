@@ -11,7 +11,7 @@ public class MovePaddle : MonoBehaviour
     // Gameobjects representing the walls of the game screen
     public GameObject eastWall, westWall;
     // Vector3s to represent the inner edges of the game screen walls
-    Vector3 eastEdge, westEdge;
+    //Vector3 eastEdge, westEdge;
     // float to manage paddle's x-position and bind it within game screen
     float paddleX;
     // floats to manage left and right bounds for paddle.
@@ -25,8 +25,8 @@ public class MovePaddle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        eastEdge = eastWall.GetComponent<BoxCollider>().center - eastWall.GetComponent<BoxCollider>().size;
-        westEdge = westWall.GetComponent<BoxCollider>().center + westWall.GetComponent<BoxCollider>().size;
+        //eastEdge = eastWall.GetComponent<BoxCollider>().center - eastWall.GetComponent<BoxCollider>().size;
+        //westEdge = westWall.GetComponent<BoxCollider>().center + westWall.GetComponent<BoxCollider>().size;
         //Debug.Log("Bounds are " + westEdge + " and " + eastEdge + ".");
         leftBound = -2.24f;
         rightBound = 2.23f;
@@ -85,5 +85,21 @@ public class MovePaddle : MonoBehaviour
     public Vector2 CoPtoCMRaw(Vector2 posn)
     {
         return new Vector2(posn.x, 0);
+    }
+
+    public void ResizePaddle(PaddleSize pSize)
+    {
+        if (pSize.Equals(PaddleSize.Large))
+        {
+
+        }
+        if (pSize.Equals(PaddleSize.Medium))
+        {
+
+        }
+        if (pSize.Equals(PaddleSize.Small))
+        {
+
+        }
     }
 }
