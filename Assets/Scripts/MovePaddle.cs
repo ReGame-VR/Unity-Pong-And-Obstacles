@@ -19,7 +19,7 @@ public class MovePaddle : MonoBehaviour
     // enum
     public enum PaddleSize { Small, Medium, Large };
     PaddleSize size;
-    // float modifiers
+    // float modifiers to affect sensitivity of paddle
     public float smallModifier, mediumModifier, largeModifier;
 
     // Start is called before the first frame update
@@ -44,23 +44,14 @@ public class MovePaddle : MonoBehaviour
         // If "Q" is pressed, paddle is large.
         if (Input.GetKeyUp(KeyCode.Q)) {
             size = PaddleSize.Large;
-            leftBound = -2.24f;
-            rightBound = 2.23f;
-            this.transform.localScale = new Vector3(6.210636f, 0.1491342f, 0.5984464f);
         }
         // If "W" is pressed, paddle is medium-sized.
         if (Input.GetKeyUp(KeyCode.W)) {
             size = PaddleSize.Medium;
-            leftBound = -3.57f;
-            rightBound = 3.56f;
-            this.transform.localScale = new Vector3(3.530974f, 0.1491342f, 0.5984464f);
         }
         // If "E" is pressed, paddle is small.
         if (Input.GetKeyUp(KeyCode.E)) {
             size = PaddleSize.Small;
-            leftBound = -4.38f;
-            rightBound = 4.39f;
-            this.transform.localScale = new Vector3(1.92535f, 0.1491342f, 0.5984464f);
         }
     }
 
@@ -91,15 +82,21 @@ public class MovePaddle : MonoBehaviour
     {
         if (pSize.Equals(PaddleSize.Large))
         {
-
+            leftBound = -2.24f;
+            rightBound = 2.23f;
+            this.transform.localScale = new Vector3(6.210636f, 0.1491342f, 0.5984464f);
         }
         if (pSize.Equals(PaddleSize.Medium))
         {
-
+            leftBound = -3.57f;
+            rightBound = 3.56f;
+            this.transform.localScale = new Vector3(3.530974f, 0.1491342f, 0.5984464f);
         }
         if (pSize.Equals(PaddleSize.Small))
         {
-
+            leftBound = -4.38f;
+            rightBound = 4.39f;
+            this.transform.localScale = new Vector3(1.92535f, 0.1491342f, 0.5984464f);
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 // Class to handle background processes of level, like measuring success and score-keeping.
 public class LevelController : MonoBehaviour
 {
     // Ints to keep track of scoring values
-    public int numBounces, numMisses;
+    public int numBounces, numMisses, totalScore;
+    // enum to gauge different ways of scoring
+    public enum ScoringMetric { Bounce, BounceAndObstacle }
     // Values to determine what each level should do to level elements
     public MovePaddle.PaddleSize paddleSize; 
     public int numBalls;
@@ -15,9 +18,11 @@ public class LevelController : MonoBehaviour
     public BallSpawner.BallInitAngle initAngle;
     public BallSpawner.BallHorizDirection hDirect;
     public float initialAngle;
+    public ScoringMetric scoringMetric;
     // References to related gameObjects to affect, implementing these difficulty elements
     public GameObject ballSpawn;
     public GameObject paddle;
+    public TextMeshProUGUI scoreText;
     
     // Start is called before the first frame update
     void Start()
@@ -32,14 +37,22 @@ public class LevelController : MonoBehaviour
     public void BallBounce()
     {
         numBounces += 1;
+        EarnPoint();
     }
 
     // Increments the number of ball misses
     public void BallMiss()
     {
         numMisses += 1;
+        LosePoint();
     }
 
+    private void Update()
+    {
+        DisplayGUI();
+    }
+
+    // Sets up all paramters within the level to match the current difficulty selected
     void StartDifficulty()
     {
         // Sets up difficulty 1
@@ -51,6 +64,7 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Slow;
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Left;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Two))
@@ -61,6 +75,7 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Slow;
             initAngle = BallSpawner.BallInitAngle.Shallow;
             hDirect = BallSpawner.BallHorizDirection.Left;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Three))
@@ -71,6 +86,7 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Slow;
             initAngle = BallSpawner.BallInitAngle.Medium;
             hDirect = BallSpawner.BallHorizDirection.Left;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Four))
@@ -81,6 +97,7 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Medium;
             initAngle = BallSpawner.BallInitAngle.Medium;
             hDirect = BallSpawner.BallHorizDirection.Left;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Five))
@@ -91,6 +108,7 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Medium;
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Left;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Six))
@@ -101,6 +119,7 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Medium;
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Random;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Seven))
@@ -111,42 +130,64 @@ public class LevelController : MonoBehaviour
             ballSpeed = BallSpawner.BallSpeed.Medium;
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
+            scoringMetric = ScoringMetric.Bounce;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Eight))
         {
-            paddleSize = MovePaddle.PaddleSize.Large;
+            paddleSize = MovePaddle.PaddleSize.Small;
             numBalls = 2;
             ballSize = BallSpawner.BallSize.Medium;
             ballSpeed = BallSpawner.BallSpeed.Fast;
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
+            scoringMetric = ScoringMetric.BounceAndObstacle;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Nine))
         {
-            paddleSize = MovePaddle.PaddleSize.Large;
+            paddleSize = MovePaddle.PaddleSize.Small;
             numBalls = 2;
             ballSize = BallSpawner.BallSize.Medium;
             ballSpeed = BallSpawner.BallSpeed.Fast;
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
+            scoringMetric = ScoringMetric.BounceAndObstacle;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Ten))
         {
-            paddleSize = MovePaddle.PaddleSize.Large;
+            paddleSize = MovePaddle.PaddleSize.Small;
             numBalls = 2;
             ballSize = BallSpawner.BallSize.Small;
             ballSpeed = BallSpawner.BallSpeed.Fast;
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
+            scoringMetric = ScoringMetric.BounceAndObstacle;
         }
     }
 
     void PlayGame()
     {
-
+        paddle.GetComponent<MovePaddle>().ResizePaddle(paddleSize);
         ballSpawn.GetComponent<BallSpawner>().SpawnBall(ballSize, ballSpeed, initAngle, hDirect);
+    }
+
+    public void DisplayGUI()
+    {
+        scoreText.text = "Score = " + totalScore;
+    }
+
+    public void EarnPoint()
+    {
+        totalScore += 1;
+    }
+
+    void LosePoint()
+    {
+        if (scoringMetric.Equals(ScoringMetric.BounceAndObstacle))
+        {
+            totalScore -= 1;
+        }
     }
 }

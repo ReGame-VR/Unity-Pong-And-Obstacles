@@ -63,29 +63,8 @@ public class BallSpawner : MonoBehaviour
         //initialImpulse = new Vector3(initialImpulse.x * horizDirection, initialImpulse.y, initialImpulse.z * vertDirection);
         ball.GetComponent<BallBehavior>().initialImpulse = initialImpulse;
         Instantiate(ball, chosenSpawn, Quaternion.identity);
-
+        Debug.Log("Spawned ball.");
         ResetBallPrefab();
-    }
-
-    // Sets up ball's rotation to properly reflect the selected BallInitAngle
-    void SetAngle(BallInitAngle initAngle)
-    {
-        if (initAngle.Equals(BallInitAngle.Shallow))
-        {
-            ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, shallowMax), 0);
-        }
-        if (initAngle.Equals(BallInitAngle.Medium))
-        {
-            ball.transform.eulerAngles = new Vector3(0, Random.Range(medAngMin, medAngMax), 0);
-        }
-        if (initAngle.Equals(BallInitAngle.Wide))
-        {
-            ball.transform.eulerAngles = new Vector3(0, Random.Range(wideMin, wideMax), 0);
-        }
-        if (initAngle.Equals(BallInitAngle.Random))
-        {
-            ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, wideMax), 0);
-        }
     }
 
     // Sets up initialImpulse to properly reflect the selected BallSpeed
@@ -103,6 +82,34 @@ public class BallSpawner : MonoBehaviour
         {
             initialImpulse = transform.forward * Random.Range(fastSpeedMin, fastSpeedMax);
         }
+    }
+
+    // Sets up ball's rotation to properly reflect the selected BallInitAngle
+    void SetAngle(BallInitAngle initAngle)
+    {
+        Vector3 turn = new Vector3();
+        if (initAngle.Equals(BallInitAngle.Shallow))
+        {
+            //ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, shallowMax), 0);
+            turn = new Vector3(0, 0, Random.Range(shallowMin, shallowMax));
+        }
+        if (initAngle.Equals(BallInitAngle.Medium))
+        {
+            //ball.transform.eulerAngles = new Vector3(0, Random.Range(medAngMin, medAngMax), 0);
+            turn = new Vector3(0, Random.Range(medAngMin, medAngMax), 0);
+        }
+        if (initAngle.Equals(BallInitAngle.Wide))
+        {
+            //ball.transform.eulerAngles = new Vector3(0, Random.Range(wideMin, wideMax), 0);
+            turn = new Vector3(0, Random.Range(wideMin, wideMax), 0);
+        }
+        if (initAngle.Equals(BallInitAngle.Random))
+        {
+            //ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, wideMax), 0);
+            turn = new Vector3(0, Random.Range(shallowMin, wideMax), 0);
+        }
+        Quaternion q = Quaternion.FromToRotation(Vector3.forward, turn);
+        initialImpulse = q * initialImpulse;
     }
 
     // Sets up intialImpulse to properly reflect the selected initial horizontal direction

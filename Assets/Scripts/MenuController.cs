@@ -38,27 +38,27 @@ public class MenuController : MonoBehaviour
         }
         if (value == 3)
         {
-            return GlobalControl.Difficulty.Three;
+            return GlobalControl.Difficulty.Four;
         }
         if (value == 4)
         {
-            return GlobalControl.Difficulty.Three;
+            return GlobalControl.Difficulty.Five;
         }
         if (value == 5)
         {
-            return GlobalControl.Difficulty.Three;
+            return GlobalControl.Difficulty.Six;
         }
         if (value == 6)
         {
-            return GlobalControl.Difficulty.Three;
+            return GlobalControl.Difficulty.Seven;
         }
         if (value == 7)
         {
-            return GlobalControl.Difficulty.Three;
+            return GlobalControl.Difficulty.Eight;
         }
         if (value == 8)
         {
-            return GlobalControl.Difficulty.Three;
+            return GlobalControl.Difficulty.Nine;
         }
         else
         {

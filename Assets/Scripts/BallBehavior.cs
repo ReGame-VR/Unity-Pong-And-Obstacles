@@ -32,6 +32,7 @@ public class BallBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // If colliding with bottom wall, destroy ball
         if (collision.gameObject.name.Equals("ScreenBottomWall"))
         {
             if (spawner.GetComponent<BallSpawner>().currBalls > 0)
@@ -40,6 +41,7 @@ public class BallBehavior : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
+        // If colliding with paddle, call LevelController's BallBounce() method
         if (collision.gameObject.name.Equals("Paddle")) {
             levelController.GetComponent<LevelController>().BallBounce();
         }
