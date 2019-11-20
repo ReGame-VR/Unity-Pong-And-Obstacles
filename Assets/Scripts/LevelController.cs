@@ -17,7 +17,7 @@ public class LevelController : MonoBehaviour
     public BallSpawner.BallSpeed ballSpeed;
     public BallSpawner.BallInitAngle initAngle;
     public BallSpawner.BallHorizDirection hDirect;
-    public float initialAngle;
+    public BallSpawner.BallInitAngle initialAngle;
     public ScoringMetric scoringMetric;
     // References to related gameObjects to affect, implementing these difficulty elements
     public GameObject ballSpawn;
@@ -27,6 +27,7 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UnityEngine.XR.XRSettings.enabled = true;
         // Sets up the level to properly mirror the current difficulty
         StartDifficulty();
         // Begins playing the level
@@ -44,7 +45,6 @@ public class LevelController : MonoBehaviour
     public void BallMiss()
     {
         numMisses += 1;
-        LosePoint();
     }
 
     private void Update()
@@ -62,7 +62,7 @@ public class LevelController : MonoBehaviour
             numBalls = 1;
             ballSize = BallSpawner.BallSize.Large;
             ballSpeed = BallSpawner.BallSpeed.Slow;
-            initAngle = BallSpawner.BallInitAngle.Wide;
+            initAngle = BallSpawner.BallInitAngle.Shallow;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
         }
@@ -170,7 +170,10 @@ public class LevelController : MonoBehaviour
     void PlayGame()
     {
         paddle.GetComponent<MovePaddle>().ResizePaddle(paddleSize);
-        ballSpawn.GetComponent<BallSpawner>().SpawnBall(ballSize, ballSpeed, initAngle, hDirect);
+        for (int i = 0; i < numBalls; i++)
+        {
+            ballSpawn.GetComponent<BallSpawner>().SpawnBall(ballSize, ballSpeed, initAngle, hDirect);
+        }
     }
 
     public void DisplayGUI()

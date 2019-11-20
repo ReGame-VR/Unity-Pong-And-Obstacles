@@ -87,29 +87,25 @@ public class BallSpawner : MonoBehaviour
     // Sets up ball's rotation to properly reflect the selected BallInitAngle
     void SetAngle(BallInitAngle initAngle)
     {
-        Vector3 turn = new Vector3();
+        float f = new float();
         if (initAngle.Equals(BallInitAngle.Shallow))
         {
-            //ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, shallowMax), 0);
-            turn = new Vector3(0, 0, Random.Range(shallowMin, shallowMax));
+            f = Random.Range(shallowMin, shallowMax);
         }
         if (initAngle.Equals(BallInitAngle.Medium))
         {
-            //ball.transform.eulerAngles = new Vector3(0, Random.Range(medAngMin, medAngMax), 0);
-            turn = new Vector3(0, Random.Range(medAngMin, medAngMax), 0);
+            f = Random.Range(medAngMin, medAngMax);
         }
         if (initAngle.Equals(BallInitAngle.Wide))
         {
-            //ball.transform.eulerAngles = new Vector3(0, Random.Range(wideMin, wideMax), 0);
-            turn = new Vector3(0, Random.Range(wideMin, wideMax), 0);
+            f = Random.Range(wideMin, wideMax);
         }
         if (initAngle.Equals(BallInitAngle.Random))
         {
-            //ball.transform.eulerAngles = new Vector3(0, Random.Range(shallowMin, wideMax), 0);
-            turn = new Vector3(0, Random.Range(shallowMin, wideMax), 0);
+            f = Random.Range(shallowMin, wideMax);
         }
-        Quaternion q = Quaternion.FromToRotation(Vector3.forward, turn);
-        initialImpulse = q * initialImpulse;
+        Debug.Log("Initial angle = " + f);
+        initialImpulse = new Vector3(initialImpulse.z * Mathf.Sin(f), 0, initialImpulse.z * Mathf.Cos(f));
     }
 
     // Sets up intialImpulse to properly reflect the selected initial horizontal direction
