@@ -41,18 +41,7 @@ public class MovePaddle : MonoBehaviour
         //paddleX = Mathf.Clamp(wiiBB.x, transform.TransformPoint(westEdge).x, transform.TransformPoint(eastEdge).x);
         paddleX = Mathf.Clamp(wiiBB.x, leftBound, rightBound);
         transform.position = new Vector3(paddleX, 22.04f, -3.81f);
-        // If "Q" is pressed, paddle is large.
-        if (Input.GetKeyUp(KeyCode.Q)) {
-            size = PaddleSize.Large;
-        }
-        // If "W" is pressed, paddle is medium-sized.
-        if (Input.GetKeyUp(KeyCode.W)) {
-            size = PaddleSize.Medium;
-        }
-        // If "E" is pressed, paddle is small.
-        if (Input.GetKeyUp(KeyCode.E)) {
-            size = PaddleSize.Small;
-        }
+        
     }
 
     // Method to return Wii Balance Board's balance point input as a Vector2

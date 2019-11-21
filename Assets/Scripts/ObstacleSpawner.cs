@@ -10,6 +10,8 @@ public class ObstacleSpawner : MonoBehaviour
     public int currObs, maxObs;
     // array of GameObjects containing all Spawnpoints for obstacles
     public GameObject[] spawnpoints;
+    // enum for choosing obstacle speed, NULL if obstacles do not spawn on this level
+    public enum ObstacleSpeed { NULL, Slow, Fast, Random };
     // Floats representing the obstacle's Speed, and rotation along each axis
     float speed, rotX, rotY, rotZ;
 
@@ -19,24 +21,14 @@ public class ObstacleSpawner : MonoBehaviour
         spawnpoints = GameObject.FindGameObjectsWithTag("ObstacleSpawn");
     }
 
-    // Update is called once per frame
-    void Update()
+    // Spawns an obstacle based on provided information from LevelController.cs
+    public void SpawnObstacle(ObstacleSpeed obsSpeed)
     {
-        if (Input.GetKeyUp(KeyCode.Z))
-        {
-            Debug.Log("Z");
-        }
-        if (Input.GetKeyUp(KeyCode.X))
-        {
-            Debug.Log("X");
-        }
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            Debug.Log("C");
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift) && currObs < maxObs)
+        // If the level has not reached the maximum number of obstacles and obstacles should be spawned
+        if (currObs < maxObs && !obsSpeed.Equals(ObstacleSpeed.NULL))
         {
             Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
+            // Makes the obstacle rotate toward the player as it flies through the air
             if (chosenSpawn.x < 0)
             {
                 rotY = Random.Range(5f, 40f);
@@ -51,8 +43,8 @@ public class ObstacleSpawner : MonoBehaviour
             obstacle.GetComponent<ObstacleBehavior>().rotX = rotX;
             obstacle.GetComponent<ObstacleBehavior>().rotY = rotY;
             obstacle.GetComponent<ObstacleBehavior>().rotZ = rotZ;
-            currObs += 1;
             Instantiate(obstacle, chosenSpawn, Quaternion.identity);
+            currObs += 1;
         }
     }
 }

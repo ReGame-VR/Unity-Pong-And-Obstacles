@@ -17,7 +17,7 @@ public class LevelController : MonoBehaviour
     public BallSpawner.BallSpeed ballSpeed;
     public BallSpawner.BallInitAngle initAngle;
     public BallSpawner.BallHorizDirection hDirect;
-    public BallSpawner.BallInitAngle initialAngle;
+    public ObstacleSpawner.ObstacleSpeed obsSpeed;
     public ScoringMetric scoringMetric;
     // References to related gameObjects to affect, implementing these difficulty elements
     public GameObject ballSpawn;
@@ -65,6 +65,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Shallow;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Two))
@@ -76,6 +77,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Shallow;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Three))
@@ -87,6 +89,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Medium;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Four))
@@ -98,6 +101,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Medium;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Five))
@@ -109,6 +113,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Six))
@@ -120,6 +125,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Seven))
@@ -131,6 +137,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.Bounce;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.Slow;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Eight))
@@ -142,6 +149,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.Slow;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Nine))
@@ -153,6 +161,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.Fast;
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Ten))
@@ -164,6 +173,7 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
+            obsSpeed = ObstacleSpawner.ObstacleSpeed.Random;
         }
     }
 
@@ -174,6 +184,7 @@ public class LevelController : MonoBehaviour
         {
             ballSpawn.GetComponent<BallSpawner>().SpawnBall(ballSize, ballSpeed, initAngle, hDirect);
         }
+        
     }
 
     public void DisplayGUI()
