@@ -8,9 +8,9 @@ public class ObstacleBehavior : MonoBehaviour
     // The obstacle's rigidbody to add force to
     private Rigidbody rb;
     // The camera that obstacles will be flying toward (player)
-    GameObject camera;
+    private GameObject camera;
     // float representing obstacle flight speed
-    public float speed = 1.0f;
+    public float speed;
     // floats representing rotation speeds for X, Y, and Z axes of obstacles
     public float rotX = 0;
     public float rotY = 0;

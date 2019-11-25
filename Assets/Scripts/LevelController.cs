@@ -23,6 +23,8 @@ public class LevelController : MonoBehaviour
     public GameObject ballSpawn;
     public GameObject paddle;
     public TextMeshProUGUI scoreText;
+    public GameObject obstacleSpawn;
+    public GameObject levelGeometryBasic, levelGeometryAdv1, levelGeometryAdv2;
     
     // Start is called before the first frame update
     void Start()
@@ -66,6 +68,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            levelGeometryBasic.gameObject.SetActive(false);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Two))
@@ -78,6 +83,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            levelGeometryBasic.gameObject.SetActive(false);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Three))
@@ -90,6 +98,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            levelGeometryBasic.gameObject.SetActive(false);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Four))
@@ -102,6 +113,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            levelGeometryBasic.gameObject.SetActive(false);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Five))
@@ -114,6 +128,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            levelGeometryBasic.gameObject.SetActive(true);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Six))
@@ -126,6 +143,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            levelGeometryBasic.gameObject.SetActive(true);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Seven))
@@ -138,6 +158,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.Bounce;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Slow;
+            levelGeometryBasic.gameObject.SetActive(true);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Eight))
@@ -150,6 +173,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Slow;
+            levelGeometryBasic.gameObject.SetActive(true);
+            levelGeometryAdv1.gameObject.SetActive(false);
+            levelGeometryAdv2.gameObject.SetActive(false);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Nine))
@@ -162,6 +188,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Fast;
+            levelGeometryBasic.gameObject.SetActive(true);
+            levelGeometryAdv1.gameObject.SetActive(true);
+            levelGeometryAdv2.gameObject.SetActive(true);
         }
 
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.Ten))
@@ -174,6 +203,9 @@ public class LevelController : MonoBehaviour
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Random;
+            levelGeometryBasic.gameObject.SetActive(true);
+            levelGeometryAdv1.gameObject.SetActive(true);
+            levelGeometryAdv2.gameObject.SetActive(true);
         }
     }
 
@@ -184,7 +216,10 @@ public class LevelController : MonoBehaviour
         {
             ballSpawn.GetComponent<BallSpawner>().SpawnBall(ballSize, ballSpeed, initAngle, hDirect);
         }
-        
+        for (int i = 0; i < obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs; i++)
+        {
+            obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
+        }
     }
 
     public void DisplayGUI()
