@@ -52,7 +52,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     void SpawnPointAndRotation()
     {
-        chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
+        int choice = Random.Range(0, spawnpoints.Length - 1);
+        Debug.Log(choice);
+        chosenSpawn = spawnpoints[choice].gameObject.transform.position;
         // Makes the obstacle rotate toward the player as it flies through the air
         if (chosenSpawn.x < 0)
         {

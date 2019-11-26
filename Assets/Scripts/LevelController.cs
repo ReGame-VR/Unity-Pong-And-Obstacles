@@ -6,6 +6,8 @@ using UnityEngine;
 // Class to handle background processes of level, like measuring success and score-keeping.
 public class LevelController : MonoBehaviour
 {
+    // bool to track when game is complete
+    bool gameComplete;
     // Ints to keep track of scoring values
     public int numBounces, numMisses, totalScore;
     // enum to gauge different ways of scoring
@@ -18,6 +20,7 @@ public class LevelController : MonoBehaviour
     public BallSpawner.BallInitAngle initAngle;
     public BallSpawner.BallHorizDirection hDirect;
     public ObstacleSpawner.ObstacleSpeed obsSpeed;
+    public float obstacleSpawnRate;
     public ScoringMetric scoringMetric;
     // References to related gameObjects to affect, implementing these difficulty elements
     public GameObject ballSpawn;
@@ -29,11 +32,20 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Turns VR visuals back on
         UnityEngine.XR.XRSettings.enabled = true;
+        // Sets gameComplete flag to false
+        gameComplete = false;
         // Sets up the level to properly mirror the current difficulty
         StartDifficulty();
-        // Begins playing the level
-        PlayGame();
+        // Run game as long as gameComplete is false
+        while (!gameComplete)
+        {
+            // Begins playing the level
+            PlayGame();
+        }
+        // Once it is true, end the game
+        EndGame();
     }
 
     // Increments the number of ball bounces
@@ -49,15 +61,9 @@ public class LevelController : MonoBehaviour
         numMisses += 1;
     }
 
-    private void Update()
-    {
-        DisplayGUI();
-    }
-
     // Sets up all paramters within the level to match the current difficulty selected
     void StartDifficulty()
     {
-        // Sets up difficulty 1
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.One))
         {
             paddleSize = MovePaddle.PaddleSize.Large;
@@ -67,7 +73,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Shallow;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 0;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            obstacleSpawnRate = 0;
             levelGeometryBasic.gameObject.SetActive(false);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -82,7 +90,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Shallow;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 0;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            obstacleSpawnRate = 0;
             levelGeometryBasic.gameObject.SetActive(false);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -97,7 +107,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Medium;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 0;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            obstacleSpawnRate = 0;
             levelGeometryBasic.gameObject.SetActive(false);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -112,7 +124,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Medium;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 0;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            obstacleSpawnRate = 0;
             levelGeometryBasic.gameObject.SetActive(false);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -127,7 +141,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Left;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 0;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            obstacleSpawnRate = 0;
             levelGeometryBasic.gameObject.SetActive(true);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -142,7 +158,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Wide;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 0;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.NULL;
+            obstacleSpawnRate = 0;
             levelGeometryBasic.gameObject.SetActive(true);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -157,7 +175,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.Bounce;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 2;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Slow;
+            obstacleSpawnRate = 2.5f;
             levelGeometryBasic.gameObject.SetActive(true);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -172,7 +192,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 4;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Slow;
+            obstacleSpawnRate = 2.5f;
             levelGeometryBasic.gameObject.SetActive(true);
             levelGeometryAdv1.gameObject.SetActive(false);
             levelGeometryAdv2.gameObject.SetActive(false);
@@ -187,7 +209,9 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 6;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Fast;
+            obstacleSpawnRate = 1.5f;
             levelGeometryBasic.gameObject.SetActive(true);
             levelGeometryAdv1.gameObject.SetActive(true);
             levelGeometryAdv2.gameObject.SetActive(true);
@@ -202,15 +226,15 @@ public class LevelController : MonoBehaviour
             initAngle = BallSpawner.BallInitAngle.Random;
             hDirect = BallSpawner.BallHorizDirection.Random;
             scoringMetric = ScoringMetric.BounceAndObstacle;
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs = 8;
             obsSpeed = ObstacleSpawner.ObstacleSpeed.Random;
+            obstacleSpawnRate = 0.7f;
             levelGeometryBasic.gameObject.SetActive(true);
             levelGeometryAdv1.gameObject.SetActive(true);
             levelGeometryAdv2.gameObject.SetActive(true);
         }
-    }
 
-    void PlayGame()
-    {
+        // Begins the level with the set-up parameters
         paddle.GetComponent<MovePaddle>().ResizePaddle(paddleSize);
         for (int i = 0; i < numBalls; i++)
         {
@@ -219,9 +243,24 @@ public class LevelController : MonoBehaviour
         for (int i = 0; i < obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs; i++)
         {
             obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
+            //WaitToSpawnObstacle();
         }
     }
 
+    // Method to handle game processes while running
+    void PlayGame() {
+        // Update the GUI
+        DisplayGUI();
+
+        if (obstacleSpawn.GetComponent<ObstacleSpawner>().currObs < 
+            obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs)
+        {
+            WaitToSpawnObstacle();
+            obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
+        }
+    }
+
+    // Update the GUI to reflect current game stats
     public void DisplayGUI()
     {
         scoreText.text = "Score = " + totalScore;
@@ -238,5 +277,16 @@ public class LevelController : MonoBehaviour
         {
             totalScore -= 1;
         }
+    }
+
+    IEnumerator WaitToSpawnObstacle()
+    {
+        yield return new WaitForSeconds(obstacleSpawnRate);
+    }
+
+    // Method to run upon game completion
+    void EndGame()
+    {
+
     }
 }
