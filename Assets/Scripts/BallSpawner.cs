@@ -56,8 +56,7 @@ public class BallSpawner : MonoBehaviour
         SetAngle(initAngle);
         SetSize(size);
         SetDirection(hDirect);
-        ChooseSpawn();
-        Vector3 chosenSpawn = spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
+        Vector3 chosenSpawn = ChooseSpawn();
         currBalls += 1;
         //vertDirection = Random.Range(0, 2) * 2 - 1;
         //initialImpulse = new Vector3(initialImpulse.x * horizDirection, initialImpulse.y, initialImpulse.z * vertDirection);
@@ -143,8 +142,8 @@ public class BallSpawner : MonoBehaviour
         }
     }
 
-    void ChooseSpawn()
+    Vector3 ChooseSpawn()
     {
-
+        return spawnpoints[Random.Range(0, spawnpoints.Length)].gameObject.transform.position;
     }
 }

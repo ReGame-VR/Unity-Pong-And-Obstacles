@@ -7,7 +7,8 @@ public class GlobalControl : MonoBehaviour
     // floats to store the furthest left and right the participant can lean
     public float leftMax, rightMax;
     // 
-    public enum ProgressionType { };
+    //public enum ProgressionType { };
+    // Enum to track current game difficulty level
     public enum Difficulty {One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten};
     public Difficulty difficulty;
 

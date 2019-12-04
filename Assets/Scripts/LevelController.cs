@@ -38,14 +38,6 @@ public class LevelController : MonoBehaviour
         gameComplete = false;
         // Sets up the level to properly mirror the current difficulty
         StartDifficulty();
-        // Run game as long as gameComplete is false
-        while (!gameComplete)
-        {
-            // Begins playing the level
-            PlayGame();
-        }
-        // Once it is true, end the game
-        EndGame();
     }
 
     // Increments the number of ball bounces
@@ -64,6 +56,7 @@ public class LevelController : MonoBehaviour
     // Sets up all paramters within the level to match the current difficulty selected
     void StartDifficulty()
     {
+        // Difficulty implementations can be found on the spreadsheet
         if (GlobalControl.Instance.difficulty.Equals(GlobalControl.Difficulty.One))
         {
             paddleSize = MovePaddle.PaddleSize.Large;
@@ -245,6 +238,16 @@ public class LevelController : MonoBehaviour
             obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
             //WaitToSpawnObstacle();
         }
+
+        // THIS IS CAUSING PROBLEMS, TRY UPDATE() LOOP INSTEAD???
+        // Run game as long as gameComplete is false
+        //while (!gameComplete)
+        //{
+            // Begins playing the level
+            //PlayGame();
+        //}
+        // Once it is true, end the game
+        //EndGame();
     }
 
     // Method to handle game processes while running
