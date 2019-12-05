@@ -251,7 +251,8 @@ public class LevelController : MonoBehaviour
     }
 
     // Method to handle game processes while running
-    void PlayGame() {
+    // Originally was its own method, crashed game. Trying update loop now
+    void Update() {
         // Update the GUI
         DisplayGUI();
 
