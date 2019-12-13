@@ -44,7 +44,7 @@ public class ObstacleSpawner : MonoBehaviour
             obstacle.GetComponent<ObstacleBehavior>().rotX = rotX;
             obstacle.GetComponent<ObstacleBehavior>().rotY = rotY;
             obstacle.GetComponent<ObstacleBehavior>().rotZ = rotZ;
-            obstacle.GetComponent<ObstacleBehavior>().speed = speed;
+            SetSpeed(obsSpeed);
             Instantiate(obstacle, chosenSpawn, Quaternion.identity);
             currObs += 1;
         }

@@ -236,18 +236,7 @@ public class LevelController : MonoBehaviour
         for (int i = 0; i < obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs; i++)
         {
             obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
-            //WaitToSpawnObstacle();
         }
-
-        // THIS IS CAUSING PROBLEMS, TRY UPDATE() LOOP INSTEAD???
-        // Run game as long as gameComplete is false
-        //while (!gameComplete)
-        //{
-            // Begins playing the level
-            //PlayGame();
-        //}
-        // Once it is true, end the game
-        //EndGame();
     }
 
     // Method to handle game processes while running
