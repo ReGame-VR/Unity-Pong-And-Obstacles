@@ -245,11 +245,11 @@ public class LevelController : MonoBehaviour
         // Update the GUI
         DisplayGUI();
 
+        // Might be better to have an elapsed time float (Time.deltaTime) and compare that
         if (obstacleSpawn.GetComponent<ObstacleSpawner>().currObs < 
             obstacleSpawn.GetComponent<ObstacleSpawner>().maxObs)
         {
-            WaitToSpawnObstacle();
-            obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
+            StartCoroutine(WaitAndSpawnObstacle());
         }
     }
 
@@ -272,9 +272,10 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    IEnumerator WaitToSpawnObstacle()
+    IEnumerator WaitAndSpawnObstacle()
     {
         yield return new WaitForSeconds(obstacleSpawnRate);
+        obstacleSpawn.GetComponent<ObstacleSpawner>().SpawnObstacle(obsSpeed);
     }
 
     // Method to run upon game completion
